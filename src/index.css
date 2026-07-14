@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Hide scrollbars for containers using .custom-scrollbar while maintaining scroll functionality */
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

@@ -1,0 +1,6 @@
+{
+  "name": "betz app",
+  "description": "A social challenge and habit accountability platform for team members to wager XP, verify check-ins, and track collective milestones.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
