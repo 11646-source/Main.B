@@ -881,9 +881,23 @@ export default function PhoneEmulator({
                           
                           {/* Feed post header */}
                           <div className="p-4.5 pb-3 flex justify-between items-center bg-[#1E293B]/60 border-b border-slate-800/40">
-                            <div className="flex items-center gap-2">
-                              <span className="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-                              <span className="text-sm font-bold font-mono">@{post.username}</span>
+                            <div className="flex flex-col gap-0.5">
+                              <div className="flex items-center gap-2">
+                                <span className={`w-2 h-2 rounded-full ${
+                                  post.status === 'APPROVED' ? 'bg-emerald-500' :
+                                  post.status === 'DISPUTED' ? 'bg-rose-500' : 'bg-amber-500 animate-pulse'
+                                }`}></span>
+                                <span className="text-sm font-bold font-mono">@{post.username}</span>
+                              </div>
+                              <span className="text-[10px] uppercase font-mono font-bold tracking-wider pl-4">
+                                {post.status === 'APPROVED' ? (
+                                  <span className="text-emerald-400">VERIFIED</span>
+                                ) : post.status === 'DISPUTED' ? (
+                                  <span className="text-rose-400">DISPUTED</span>
+                                ) : (
+                                  <span className="text-amber-400">PENDING ({approves}/2)</span>
+                                )}
+                              </span>
                             </div>
                             <span className="text-[10px] text-indigo-300 bg-indigo-950/80 px-2.5 py-1 rounded-md font-mono border border-indigo-900/40 uppercase font-bold tracking-wider">
                               {post.challenge_title.slice(0, 30)}{post.challenge_title.length > 30 ? '...' : ''}
@@ -910,26 +924,6 @@ export default function PhoneEmulator({
                                   referrerPolicy="no-referrer"
                                 />
                               )}
-                              
-                              {/* Status badge */}
-                              <div className="absolute top-3.5 right-3.5">
-                                {post.status === 'APPROVED' ? (
-                                  <span className="flex items-center gap-1.5 bg-emerald-950/95 text-emerald-400 text-xs font-bold px-3 py-1.5 rounded-full border border-emerald-500/30 shadow-lg">
-                                    <CheckCircle className="w-4 h-4 text-emerald-400" />
-                                    VERIFIED
-                                  </span>
-                                ) : post.status === 'DISPUTED' ? (
-                                  <span className="flex items-center gap-1.5 bg-rose-950/95 text-rose-400 text-xs font-bold px-3 py-1.5 rounded-full border border-rose-500/30 shadow-lg">
-                                    <X className="w-4 h-4 text-rose-400" />
-                                    DISPUTED
-                                  </span>
-                                ) : (
-                                  <span className="flex items-center gap-1.5 bg-amber-950/95 text-amber-400 text-xs font-bold px-3 py-1.5 rounded-full border border-amber-500/30 shadow-lg">
-                                    <Clock className="w-4 h-4 text-amber-400 animate-pulse" />
-                                    PENDING ({approves}/2)
-                                  </span>
-                                )}
-                              </div>
                             </div>
                           )}
 
@@ -939,50 +933,9 @@ export default function PhoneEmulator({
                               "{post.text_proof}"
                             </p>
 
-                            <div className="flex items-center justify-between pt-3 border-t border-slate-800/60 text-xs text-slate-400">
-                              <div className="flex items-center gap-2 font-mono">
-                                <span className="text-emerald-400 font-bold">✓ {approves} APPROVED</span>
-                                <span className="text-slate-600">•</span>
-                                <span className="text-rose-400 font-bold">✗ {disputes} DISPUTED</span>
-                              </div>
-                              <span className="text-xs font-mono opacity-80">
-                                {new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                              </span>
-                            </div>
 
-                            {/* VOTING OPTIONS (Hide for self checkins) */}
-                            {post.user_id === currentUser.id ? (
-                              <div className="pt-2 text-center text-xs font-mono text-slate-500 bg-slate-900/40 py-2 rounded-xl border border-slate-800/40">
-                                Your own submission
-                              </div>
-                            ) : (
-                              <div className="pt-2 grid grid-cols-2 gap-3">
-                                <button
-                                  onClick={() => onCastVote(post.id, 'APPROVE')}
-                                  disabled={userVoted?.vote === 'APPROVE'}
-                                  className={`py-2 rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
-                                    userVoted?.vote === 'APPROVE'
-                                      ? 'bg-emerald-950/40 text-emerald-500/60 border border-emerald-900/20'
-                                      : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 cursor-pointer'
-                                  }`}
-                                >
-                                  <Check className="w-4 h-4" />
-                                  Approve Proof
-                                </button>
-                                <button
-                                  onClick={() => onCastVote(post.id, 'DISPUTED')}
-                                  disabled={userVoted?.vote === 'DISPUTED'}
-                                  className={`py-2 rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
-                                    userVoted?.vote === 'DISPUTED'
-                                      ? 'bg-rose-950/40 text-rose-500/60 border border-rose-900/20'
-                                      : 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 cursor-pointer'
-                                  }`}
-                                >
-                                  <X className="w-4 h-4" />
-                                  Dispute Proof
-                                </button>
-                              </div>
-                            )}
+
+                            {/* VOTING OPTIONS REMOVED */}
                           </div>
                         </div>
                       );
